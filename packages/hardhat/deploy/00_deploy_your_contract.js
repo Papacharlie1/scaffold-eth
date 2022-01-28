@@ -1,8 +1,8 @@
 // deploy/00_deploy_your_contract.js
 
-const { ethers } = require("hardhat");
+const { ethers } = require("mainnet");
 
-const localChainId = "31337";
+const chainId = "1";
 
 // const sleep = (ms) =>
 //   new Promise((r) =>
@@ -17,12 +17,12 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  await deploy("YourContract", {
+  await deploy("AmaraContract", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
     // args: [ "Hello", ethers.utils.parseEther("1.5") ],
     log: true,
-    waitConfirmations: 5,
+    waitConfirmations: 1,
   });
 
   // Getting a previously deployed contract
@@ -47,7 +47,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
 
   /*
   //If you want to send some ETH to a contract on deploy (make your constructor payable!)
-  const yourContract = await deploy("YourContract", [], {
+  const yourContract = await deploy("AmaraContract", [], {
   value: ethers.utils.parseEther("0.05")
   });
   */
@@ -76,4 +76,4 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   //   console.error(error);
   // }
 };
-module.exports.tags = ["YourContract"];
+module.exports.tags = ["AmaraContract"];
