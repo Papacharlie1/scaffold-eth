@@ -1,27 +1,20 @@
 // MY INFURA_ID, SWAP IN YOURS FROM https://infura.io/dashboard/ethereum
-export const INFURA_ID = "7b0e75d38d424750b92791477924d133";
+export const INFURA_ID = "7e792748b1ee47c39ee4593dcf72f518";
 
 // MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
-export const ETHERSCAN_KEY = "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
+export const ETHERSCAN_KEY = "9CJUPZSC7114F47JGP151XC3RS3KSFRIMW";
 
 // BLOCKNATIVE ID FOR Notify.js:
-export const BLOCKNATIVE_DAPPID = "0b58206a-f3c0-4701-a62f-73c7243e8c77";
+export const BLOCKNATIVE_DAPPID = "aa795705-1d37-4a85-a7fc-91c53e9a2e38";
 
-export const ALCHEMY_KEY = "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
+export const ALCHEMY_KEY = "B1tbqaTDsyTd09jvDtZ2Fa1EMpO4yrRD";
 
 export const NETWORKS = {
-  localhost: {
-    name: "localhost",
-    color: "#666666",
-    chainId: 31337,
-    blockExplorer: "",
-    rpcUrl: "http://" + (global.window ? window.location.hostname : "localhost") + ":8545",
-  },
   mainnet: {
     name: "mainnet",
     color: "#ff8b9e",
     chainId: 1,
-    rpcUrl: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
+    rpcUrl: `https://eth-mainnet.alchemyapi.io/v2/B1tbqaTDsyTd09jvDtZ2Fa1EMpO4yrRD`,
     blockExplorer: "https://etherscan.io/",
   },
   kovan: {
@@ -205,7 +198,7 @@ export const NETWORKS = {
 
 export const NETWORK = chainId => {
   for (const n in NETWORKS) {
-    if (NETWORKS[n].chainId === chainId) {
+    if (NETWORKS[https://eth-mainnet.alchemyapi.io/v2/B1tbqaTDsyTd09jvDtZ2Fa1EMpO4yrRD]chainId === chainId) {
       return NETWORKS[n];
     }
   }
