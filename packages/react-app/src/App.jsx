@@ -34,26 +34,13 @@ import { useStaticJsonRPC } from "./hooks";
 
 const { ethers } = require("ethers");
 /*
-    Welcome to 🏗 scaffold-eth !
+    Welcome to 🏗 amara-eth !
 
-    Code:
-    https://github.com/scaffold-eth/scaffold-eth
-
-    Support:
-    https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA
-    or DM @austingriffith on twitter or telegram
-
-    You should get your own Alchemy.com & Infura.io ID and put it in `constants.js`
-    (this is your connection to the main Ethereum network for ENS etc.)
-
-
-    🌏 EXTERNAL CONTRACTS:
-    You can also bring in contract artifacts in `constants.js`
-    (and then use the `useExternalContractLoader()` hook!)
+   
 */
 
 /// 📡 What chain are your contracts deployed to?
-const initialNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const initialNetwork = NETWORKS.mainnet; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -65,32 +52,34 @@ const web3Modal = Web3ModalSetup();
 
 // 🛰 providers
 const providers = [
-  "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
-  `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
-  "https://rpc.scaffoldeth.io:48544",
+  "https://mainnet.infura.io/v3/7e792748b1ee47c39ee4593dcf72f518",
+  `https://eth-mainnet.alchemyapi.io/v2/B1tbqaTDsyTd09jvDtZ2Fa1EMpO4yrRD`,
+  "https://etherscan.io/myapikey_stats?apikey=9CJUPZSC7114F47JGP151XC3RS3KSFRIMW",
 ];
 
 function App(props) {
   // specify all the chains your app is available on. Eg: ['localhost', 'mainnet', ...otherNetworks ]
   // reference './constants.js' for other networks
-  const networkOptions = [initialNetwork.name, "mainnet", "rinkeby"];
+  const networkOptions = [initialNetwork.name, "mainnet"];
 
-  const [injectedProvider, setInjectedProvider] = useState();
+  const provider = new WalletConnectProvider({
+    infuraId: "7e792748b1ee47c39ee4593dcf72f518",
+    });
   const [address, setAddress] = useState();
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
   const location = useLocation();
 
-  const targetNetwork = NETWORKS[selectedNetwork];
+  const targetNetwork = NETWORKS["mainnet"];
 
   // 🔭 block explorer URL
-  const blockExplorer = targetNetwork.blockExplorer;
+  const blockExplorer = "https://etherscan.io";
 
   // load all your providers
   const localProvider = useStaticJsonRPC([
     process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl,
   ]);
-  const mainnetProvider = useStaticJsonRPC(providers);
-
+  const mainnetProvider = await provider.request(payload: RequestArguments);
+  
   if (DEBUG) console.log(`Using ${selectedNetwork} network`);
 
   // 🛰 providers
@@ -111,8 +100,7 @@ function App(props) {
 
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
-  // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
-  const userProviderAndSigner = useUserProviderAndSigner(injectedProvider, localProvider, USE_BURNER_WALLET);
+  const userProviderAndSigner = useUserProviderAndSigner(Provider, localProvider, USE_BURNER_WALLET);
   const userSigner = userProviderAndSigner.signer;
 
   useEffect(() => {
@@ -216,16 +204,16 @@ function App(props) {
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
-    setInjectedProvider(new ethers.providers.Web3Provider(provider));
+    setProvider(new ethers.providers.Web3Provider(provider));
 
     provider.on("chainChanged", chainId => {
       console.log(`chain changed to ${chainId}! updating providers`);
-      setInjectedProvider(new ethers.providers.Web3Provider(provider));
+      setProvider(new ethers.providers.Web3Provider(provider));
     });
 
     provider.on("accountsChanged", () => {
       console.log(`account changed!`);
-      setInjectedProvider(new ethers.providers.Web3Provider(provider));
+      setProvider(new ethers.providers.Web3Provider(provider));
     });
 
     // Subscribe to session disconnection
@@ -234,7 +222,7 @@ function App(props) {
       logoutOfWeb3Modal();
     });
     // eslint-disable-next-line
-  }, [setInjectedProvider]);
+  }, [setProvider]);
 
   useEffect(() => {
     if (web3Modal.cachedProvider) {
