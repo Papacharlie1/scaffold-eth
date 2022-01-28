@@ -1,4 +1,4 @@
-pragma solidity 0.8.6;
+// SPDX-License-Identifier: MITpragma solidity 0.8.6;
 import "./Ownable.sol";
 contract Bank is Ownable {
     
